@@ -1,6 +1,6 @@
 //
 //  PaymentVC.swift
-//  Collaboration-Project
+//  Collab-Project
 //
 //  Created by Tornike Eristavi on 17.06.24.
 //
