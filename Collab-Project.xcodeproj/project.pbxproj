@@ -21,6 +21,9 @@
 		D0C004222C2760A5004E31B3 /* AutorizationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004212C2760A5004E31B3 /* AutorizationHeader.swift */; };
 		D0C004242C2760D8004E31B3 /* AuthorizationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004232C2760D8004E31B3 /* AuthorizationForm.swift */; };
 		D0C004262C276107004E31B3 /* FieldWithPaddings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004252C276107004E31B3 /* FieldWithPaddings.swift */; };
+		D0C0042A2C27636A004E31B3 /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004292C27636A004E31B3 /* CartManager.swift */; };
+		D0C0042C2C276376004E31B3 /* ProductsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0042B2C276376004E31B3 /* ProductsManager.swift */; };
+		D0C0042E2C2763A9004E31B3 /* Userdefaults-extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0042D2C2763A9004E31B3 /* Userdefaults-extensions.swift */; };
 		D26035A12C26FC8F00AB0BC2 /* ProductsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A02C26FC8F00AB0BC2 /* ProductsListViewController.swift */; };
 		D26035A42C26FCBE00AB0BC2 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A32C26FCBE00AB0BC2 /* ProductModel.swift */; };
 		D26035A72C26FCD600AB0BC2 /* ProductNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A52C26FCD600AB0BC2 /* ProductNetworkService.swift */; };
@@ -47,6 +50,9 @@
 		D0C004212C2760A5004E31B3 /* AutorizationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutorizationHeader.swift; sourceTree = "<group>"; };
 		D0C004232C2760D8004E31B3 /* AuthorizationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationForm.swift; sourceTree = "<group>"; };
 		D0C004252C276107004E31B3 /* FieldWithPaddings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldWithPaddings.swift; sourceTree = "<group>"; };
+		D0C004292C27636A004E31B3 /* CartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
+		D0C0042B2C276376004E31B3 /* ProductsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsManager.swift; sourceTree = "<group>"; };
+		D0C0042D2C2763A9004E31B3 /* Userdefaults-extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Userdefaults-extensions.swift"; sourceTree = "<group>"; };
 		D26035A02C26FC8F00AB0BC2 /* ProductsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsListViewController.swift; sourceTree = "<group>"; };
 		D26035A32C26FCBE00AB0BC2 /* ProductModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		D26035A52C26FCD600AB0BC2 /* ProductNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductNetworkService.swift; sourceTree = "<group>"; };
@@ -109,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				D0AE74D52C2751FA002B3F89 /* Extensions.swift */,
+				D0C0042D2C2763A9004E31B3 /* Userdefaults-extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -152,9 +159,7 @@
 			children = (
 				D0C0041E2C27606D004E31B3 /* Components */,
 				D0C004162C275FF1004E31B3 /* AuthorizationModel.swift */,
-				D0C004182C275FFB004E31B3 /* AuthorizationViewModel.swift */,
 				D0C0041A2C276013004E31B3 /* AuthorizationController.swift */,
-				D0C0041C2C276023004E31B3 /* AuthService.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -185,6 +190,23 @@
 			path = AuthorizationForm;
 			sourceTree = "<group>";
 		};
+		D0C004272C276338004E31B3 /* AuthService */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0041C2C276023004E31B3 /* AuthService.swift */,
+			);
+			path = AuthService;
+			sourceTree = "<group>";
+		};
+		D0C004282C276355004E31B3 /* StoreManagers */ = {
+			isa = PBXGroup;
+			children = (
+				D0C004292C27636A004E31B3 /* CartManager.swift */,
+				D0C0042B2C276376004E31B3 /* ProductsManager.swift */,
+			);
+			path = StoreManagers;
+			sourceTree = "<group>";
+		};
 		D260359F2C26FC7000AB0BC2 /* ProductsList */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +219,8 @@
 		D26035A22C26FCAD00AB0BC2 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				D0C004282C276355004E31B3 /* StoreManagers */,
+				D0C004272C276338004E31B3 /* AuthService */,
 				D0AE74D32C27519A002B3F89 /* Extensions */,
 				D26035A82C26FCE600AB0BC2 /* Models */,
 				D26035A62C26FCD600AB0BC2 /* NetworkService */,
@@ -215,6 +239,7 @@
 		D26035A82C26FCE600AB0BC2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D0C004182C275FFB004E31B3 /* AuthorizationViewModel.swift */,
 				D26035A32C26FCBE00AB0BC2 /* ProductModel.swift */,
 			);
 			path = Models;
@@ -327,6 +352,8 @@
 				D2D449052C26FB070014E7C1 /* ViewController.swift in Sources */,
 				D26035A42C26FCBE00AB0BC2 /* ProductModel.swift in Sources */,
 				D0AE74CD2C274F48002B3F89 /* CartViewController.swift in Sources */,
+				D0C0042A2C27636A004E31B3 /* CartManager.swift in Sources */,
+				D0C0042E2C2763A9004E31B3 /* Userdefaults-extensions.swift in Sources */,
 				D0C0041D2C276023004E31B3 /* AuthService.swift in Sources */,
 				D26035A72C26FCD600AB0BC2 /* ProductNetworkService.swift in Sources */,
 				D0C004192C275FFB004E31B3 /* AuthorizationViewModel.swift in Sources */,
@@ -338,6 +365,7 @@
 				D2D4490B2C26FB070014E7C1 /* Collab_Project.xcdatamodeld in Sources */,
 				D0AE74DC2C2758BC002B3F89 /* CartCounter.swift in Sources */,
 				D0C004172C275FF1004E31B3 /* AuthorizationModel.swift in Sources */,
+				D0C0042C2C276376004E31B3 /* ProductsManager.swift in Sources */,
 				D0C004222C2760A5004E31B3 /* AutorizationHeader.swift in Sources */,
 				D0AE74D92C27583E002B3F89 /* ProductListCell.swift in Sources */,
 				D0C0041B2C276013004E31B3 /* AuthorizationController.swift in Sources */,

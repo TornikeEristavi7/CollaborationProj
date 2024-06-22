@@ -1,0 +1,45 @@
+//
+//  Userdefaults-extensions.swift
+//  Collab-Project
+//
+//  Created by Tatarella on 22.06.24.
+//
+
+import Foundation
+
+extension UserDefaults {
+    private enum Keys {
+        static let productItems = "products"
+        static let cartItems = "cart"
+    }
+    
+    func saveProducts(_ items: [ProductListModel]) {
+        if let encoded = try? JSONEncoder().encode(items) {
+            set(encoded, forKey: Keys.productItems)
+        }
+    }
+
+    func getproducts() -> [ProductListModel] {
+        if let data = data(forKey: Keys.productItems),
+           let decoded = try? JSONDecoder().decode([ProductListModel].self, from: data) {
+            print("userdefaults-ebidan wamoigo")
+            return decoded
+        }
+        return []
+    }
+    
+    func saveCartItems(_ items: [ProductListModel]) {
+        if let encoded = try? JSONEncoder().encode(items) {
+            set(encoded, forKey: Keys.cartItems)
+        }
+    }
+
+    func getCartItems() -> [ProductListModel] {
+        if let data = data(forKey: Keys.cartItems),
+           let decoded = try? JSONDecoder().decode([ProductListModel].self, from: data) {
+            return decoded
+        }
+        return []
+    }
+
+}

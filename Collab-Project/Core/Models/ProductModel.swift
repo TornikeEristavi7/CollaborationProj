@@ -10,7 +10,7 @@ struct ProductModel: Codable {
     let title: String
     let price: Double
     let category: String
-    let stock: Int
+    var stock: Int
     let thumbnail: String
     
 }
