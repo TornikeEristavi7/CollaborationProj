@@ -1,72 +1,15 @@
 //
-//  ProductsList.swift
+//  TableViewCell.swift
 //  Collab-Project
 //
-//  Created by gvanca koxreidze on 20.06.24.
+//  Created by Tatarella on 22.06.24.
 //
 
 import UIKit
 
-class ProductsList: UIViewController {
+class ProductListCell: UITableViewCell {
     
-    let tableView = UITableView()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.frame = view.bounds
-        view.addSubview(tableView)
-        
-        
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "CustomTableViewCell")
-        
-        
-        tableView.separatorStyle = .none
-        
-        
-        tableView.separatorColor = UIColor.clear
-        tableView.layer.borderWidth = 1.5
-        tableView.layer.borderColor = UIColor(red: 217/255, green: 219/255, blue: 233/255, alpha: 1.0).cgColor
-    }
-}
-
-
-extension ProductsList: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell", for: indexPath) as! CustomTableViewCell
-        
-        switch indexPath.row {
-        case 0:
-            cell.configure(withTitle: "Samsung", stock: 36, price: 1249, imageName: "Image1")
-        case 1:
-            cell.configure(withTitle: "Microsoft Surface", stock: 68, price: 1499, imageName: "Image2")
-        case 2:
-            cell.configure(withTitle: "HP Pavilion", stock: 89, price: 1099, imageName: "Image3")
-        default:
-            break
-        }
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
-    }
-}
-
-
-
-
-
-class CustomTableViewCell: UITableViewCell {
+    let counterView = CartCounter()
     
     let contentContainerView: UIView = {
         let view = UIView()
@@ -114,39 +57,10 @@ class CustomTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let addButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "addImage"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let minusButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "minusImage"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let countLabel: UILabel = {
-        let label = UILabel()
-        label.font = Typography.labelFont
-        label.textColor = Typography.labelTextColor
-        label.textAlignment = .center
-        label.text = "\(0)"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
-        minusButtonTapped()
-        addButtonTapped()
-        
-        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-        minusButton.addTarget(self, action: #selector(minusButtonTapped), for: .touchUpInside)
         
         self.selectionStyle = .none
     }
@@ -156,15 +70,16 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
-        addSubview(contentContainerView)
+        contentView.isUserInteractionEnabled = true
+        
+        contentView.addSubview(contentContainerView)
         
         contentContainerView.addSubview(titleLabel)
         contentContainerView.addSubview(stockLabel)
         contentContainerView.addSubview(priceLabel)
         contentContainerView.addSubview(productImageView)
-        contentContainerView.addSubview(addButton)
-        contentContainerView.addSubview(minusButton)
-        contentContainerView.addSubview(countLabel)
+        contentContainerView.addSubview(counterView)
+        counterView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             contentContainerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
@@ -186,25 +101,10 @@ class CustomTableViewCell: UITableViewCell {
             priceLabel.topAnchor.constraint(equalTo: stockLabel.bottomAnchor, constant: 10),
             priceLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
             
-            
-            minusButton.centerYAnchor.constraint(equalTo: addButton.centerYAnchor),
-            minusButton.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 130),
-            
-            addButton.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 40),
-            addButton.leftAnchor.constraint(equalTo: minusButton.rightAnchor, constant: 29),
-            
-            countLabel.centerYAnchor.constraint(equalTo: addButton.centerYAnchor),
-            countLabel.leftAnchor.constraint(equalTo: contentContainerView.leftAnchor, constant: 293),
+            counterView.rightAnchor.constraint(equalTo: contentContainerView.rightAnchor),
+            counterView.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
+            counterView.bottomAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: -20)
         ])
-    }
-    
-    @objc private func addButtonTapped() {
-        print("add Button tapped")
-        
-    }
-    
-    @objc private func minusButtonTapped() {
-        
     }
     
     func configure(withTitle title: String, stock: Int, price: Int, imageName: String) {

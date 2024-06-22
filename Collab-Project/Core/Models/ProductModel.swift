@@ -15,6 +15,11 @@ struct ProductModel: Codable {
     
 }
 
+struct ProductListModel: Codable {
+    var product: ProductModel
+    var count: Int
+    
+}
 
 struct ResponseModel: Codable {
     let products: [ProductModel]

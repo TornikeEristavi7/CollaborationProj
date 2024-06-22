@@ -1,0 +1,88 @@
+//
+//  CartCounter.swift
+//  Collab-Project
+//
+//  Created by Tatarella on 22.06.24.
+//
+
+import UIKit
+
+class CartCounter: UIView {
+    
+    var product: ProductListModel?
+    
+    var count: Int = 0 {
+        didSet {
+            counterLabel.text = "\(count)"
+        }
+    }
+    
+    private let minusButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "minus.circle"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let plusButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let counterLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 24)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private func setupView() {
+        addSubview(minusButton)
+        addSubview(counterLabel)
+        addSubview(plusButton)
+        
+        minusButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.count -= 1
+            //TODO: გამოვიყენოთ cart და product manager
+            //TODO: შემოწმდეს არ იყოს stock-ზე მეტი
+        }), for: .touchUpInside)
+        
+        plusButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.count += 1
+            //TODO: გამოვიყენოთ cart და product manager
+            //TODO: შემოწმდეს არ იყოს stock-ზე მეტი
+        }), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            minusButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            minusButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            minusButton.widthAnchor.constraint(equalToConstant: 40),
+            minusButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            counterLabel.leadingAnchor.constraint(equalTo: minusButton.trailingAnchor, constant: 10),
+            counterLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            counterLabel.widthAnchor.constraint(equalToConstant: 50),
+            
+            plusButton.leadingAnchor.constraint(equalTo: counterLabel.trailingAnchor, constant: 10),
+            plusButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            plusButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            plusButton.widthAnchor.constraint(equalToConstant: 40),
+            plusButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        counterLabel.text = "\(count)"
+    }
+    
+}

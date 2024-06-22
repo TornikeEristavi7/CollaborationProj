@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     let imageView = UIImageView()
     let showPopupButton = UIButton()
     let newButton = UIButton()
-    let popupView = PaymentVC()
+    let popupView = PaymentInfoView()
     var popupTopConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         imageView.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 
-        imageView.loadImage(from: URL(string: "https://picsum.photos/id/870/200/300?grayscale&blur=2")!)
+        imageView.load(from: URL(string: "https://picsum.photos/id/870/200/300?grayscale&blur=2")!)
     }
 
     private func setupShowPopupButton() {
@@ -83,8 +83,8 @@ class ViewController: UIViewController {
     }
 
     @objc private func newButtonTapped() {
-//        let cartVC = CartVC()
-//        navigationController?.pushViewController(cartVC, animated: true)
+        let cartVC = CartViewController()
+        navigationController?.pushViewController(cartVC, animated: true)
     }
 
     private func showPopup() {
