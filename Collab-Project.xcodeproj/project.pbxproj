@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D06303D02C27027E002982CD /* PaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06303CF2C27027E002982CD /* PaymentVC.swift */; };
+		D06303D32C27028D002982CD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06303D22C27028D002982CD /* Extensions.swift */; };
+		D06303D52C270297002982CD /* Cart in Resources */ = {isa = PBXBuildFile; fileRef = D06303D42C270297002982CD /* Cart */; };
 		D26035A12C26FC8F00AB0BC2 /* ProductsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A02C26FC8F00AB0BC2 /* ProductsList.swift */; };
 		D26035A42C26FCBE00AB0BC2 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A32C26FCBE00AB0BC2 /* ProductModel.swift */; };
 		D26035A72C26FCD600AB0BC2 /* ProductNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A52C26FCD600AB0BC2 /* ProductNetworkService.swift */; };
@@ -19,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D06303CF2C27027E002982CD /* PaymentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentVC.swift; path = "../../Collaboration-Project-cart/Collaboration-Project/Payment-Info/PaymentVC.swift"; sourceTree = "<group>"; };
+		D06303D12C270282002982CD /* PaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentVC.swift; sourceTree = "<group>"; };
+		D06303D22C27028D002982CD /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = "../../../Collaboration-Project-cart/Collaboration-Project/Payment-Info/Extensions.swift"; sourceTree = "<group>"; };
+		D06303D42C270297002982CD /* Cart */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Cart; path = "../../Collaboration-Project-cart/Collaboration-Project/Cart"; sourceTree = "<group>"; };
 		D26035A02C26FC8F00AB0BC2 /* ProductsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsList.swift; sourceTree = "<group>"; };
 		D26035A32C26FCBE00AB0BC2 /* ProductModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		D26035A52C26FCD600AB0BC2 /* ProductNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductNetworkService.swift; sourceTree = "<group>"; };
@@ -43,6 +50,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D06303CE2C27025F002982CD /* Payment-info */ = {
+			isa = PBXGroup;
+			children = (
+				D06303D22C27028D002982CD /* Extensions.swift */,
+				D06303D12C270282002982CD /* PaymentVC.swift */,
+			);
+			path = "Payment-info";
+			sourceTree = "<group>";
+		};
 		D260359F2C26FC7000AB0BC2 /* ProductsList */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,8 +111,11 @@
 		D2D448FF2C26FB070014E7C1 /* Collab-Project */ = {
 			isa = PBXGroup;
 			children = (
+				D06303CF2C27027E002982CD /* PaymentVC.swift */,
+				D06303CE2C27025F002982CD /* Payment-info */,
 				D26035A22C26FCAD00AB0BC2 /* Core */,
 				D260359F2C26FC7000AB0BC2 /* ProductsList */,
+				D06303D42C270297002982CD /* Cart */,
 				D2D449002C26FB070014E7C1 /* AppDelegate.swift */,
 				D2D449022C26FB070014E7C1 /* SceneDelegate.swift */,
 				D2D449042C26FB070014E7C1 /* ViewController.swift */,
@@ -167,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2D4490D2C26FB080014E7C1 /* Assets.xcassets in Resources */,
+				D06303D52C270297002982CD /* Cart in Resources */,
 				D2D449102C26FB080014E7C1 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,6 +199,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2D449052C26FB070014E7C1 /* ViewController.swift in Sources */,
+				D06303D32C27028D002982CD /* Extensions.swift in Sources */,
+				D06303D02C27027E002982CD /* PaymentVC.swift in Sources */,
 				D26035A42C26FCBE00AB0BC2 /* ProductModel.swift in Sources */,
 				D26035A72C26FCD600AB0BC2 /* ProductNetworkService.swift in Sources */,
 				D2D449012C26FB070014E7C1 /* AppDelegate.swift in Sources */,
@@ -336,6 +358,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -364,6 +387,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
