@@ -14,6 +14,13 @@
 		D0AE74D92C27583E002B3F89 /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE74D82C27583E002B3F89 /* ProductListCell.swift */; };
 		D0AE74DC2C2758BC002B3F89 /* CartCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE74DB2C2758BC002B3F89 /* CartCounter.swift */; };
 		D0AE74E02C275AE5002B3F89 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE74DF2C275AE5002B3F89 /* CartView.swift */; };
+		D0C004172C275FF1004E31B3 /* AuthorizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004162C275FF1004E31B3 /* AuthorizationModel.swift */; };
+		D0C004192C275FFB004E31B3 /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004182C275FFB004E31B3 /* AuthorizationViewModel.swift */; };
+		D0C0041B2C276013004E31B3 /* AuthorizationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0041A2C276013004E31B3 /* AuthorizationController.swift */; };
+		D0C0041D2C276023004E31B3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0041C2C276023004E31B3 /* AuthService.swift */; };
+		D0C004222C2760A5004E31B3 /* AutorizationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004212C2760A5004E31B3 /* AutorizationHeader.swift */; };
+		D0C004242C2760D8004E31B3 /* AuthorizationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004232C2760D8004E31B3 /* AuthorizationForm.swift */; };
+		D0C004262C276107004E31B3 /* FieldWithPaddings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C004252C276107004E31B3 /* FieldWithPaddings.swift */; };
 		D26035A12C26FC8F00AB0BC2 /* ProductsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A02C26FC8F00AB0BC2 /* ProductsListViewController.swift */; };
 		D26035A42C26FCBE00AB0BC2 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A32C26FCBE00AB0BC2 /* ProductModel.swift */; };
 		D26035A72C26FCD600AB0BC2 /* ProductNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26035A52C26FCD600AB0BC2 /* ProductNetworkService.swift */; };
@@ -33,6 +40,13 @@
 		D0AE74D82C27583E002B3F89 /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		D0AE74DB2C2758BC002B3F89 /* CartCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCounter.swift; sourceTree = "<group>"; };
 		D0AE74DF2C275AE5002B3F89 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		D0C004162C275FF1004E31B3 /* AuthorizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationModel.swift; sourceTree = "<group>"; };
+		D0C004182C275FFB004E31B3 /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
+		D0C0041A2C276013004E31B3 /* AuthorizationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationController.swift; sourceTree = "<group>"; };
+		D0C0041C2C276023004E31B3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		D0C004212C2760A5004E31B3 /* AutorizationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutorizationHeader.swift; sourceTree = "<group>"; };
+		D0C004232C2760D8004E31B3 /* AuthorizationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationForm.swift; sourceTree = "<group>"; };
+		D0C004252C276107004E31B3 /* FieldWithPaddings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldWithPaddings.swift; sourceTree = "<group>"; };
 		D26035A02C26FC8F00AB0BC2 /* ProductsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsListViewController.swift; sourceTree = "<group>"; };
 		D26035A32C26FCBE00AB0BC2 /* ProductModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		D26035A52C26FCD600AB0BC2 /* ProductNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductNetworkService.swift; sourceTree = "<group>"; };
@@ -133,6 +147,44 @@
 			path = CartView;
 			sourceTree = "<group>";
 		};
+		D0C004152C275FBB004E31B3 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				D0C0041E2C27606D004E31B3 /* Components */,
+				D0C004162C275FF1004E31B3 /* AuthorizationModel.swift */,
+				D0C004182C275FFB004E31B3 /* AuthorizationViewModel.swift */,
+				D0C0041A2C276013004E31B3 /* AuthorizationController.swift */,
+				D0C0041C2C276023004E31B3 /* AuthService.swift */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
+		D0C0041E2C27606D004E31B3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D0C004202C276084004E31B3 /* AuthorizationForm */,
+				D0C0041F2C27607A004E31B3 /* AuthorizationHeader */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		D0C0041F2C27607A004E31B3 /* AuthorizationHeader */ = {
+			isa = PBXGroup;
+			children = (
+				D0C004212C2760A5004E31B3 /* AutorizationHeader.swift */,
+			);
+			path = AuthorizationHeader;
+			sourceTree = "<group>";
+		};
+		D0C004202C276084004E31B3 /* AuthorizationForm */ = {
+			isa = PBXGroup;
+			children = (
+				D0C004232C2760D8004E31B3 /* AuthorizationForm.swift */,
+				D0C004252C276107004E31B3 /* FieldWithPaddings.swift */,
+			);
+			path = AuthorizationForm;
+			sourceTree = "<group>";
+		};
 		D260359F2C26FC7000AB0BC2 /* ProductsList */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +239,7 @@
 		D2D448FF2C26FB070014E7C1 /* Collab-Project */ = {
 			isa = PBXGroup;
 			children = (
+				D0C004152C275FBB004E31B3 /* Authorization */,
 				D021EA352C2735320031F571 /* Cart */,
 				D260359F2C26FC7000AB0BC2 /* ProductsList */,
 				D26035A22C26FCAD00AB0BC2 /* Core */,
@@ -274,7 +327,9 @@
 				D2D449052C26FB070014E7C1 /* ViewController.swift in Sources */,
 				D26035A42C26FCBE00AB0BC2 /* ProductModel.swift in Sources */,
 				D0AE74CD2C274F48002B3F89 /* CartViewController.swift in Sources */,
+				D0C0041D2C276023004E31B3 /* AuthService.swift in Sources */,
 				D26035A72C26FCD600AB0BC2 /* ProductNetworkService.swift in Sources */,
+				D0C004192C275FFB004E31B3 /* AuthorizationViewModel.swift in Sources */,
 				D0AE74D12C274FE6002B3F89 /* CartProductCell.swift in Sources */,
 				D2D449012C26FB070014E7C1 /* AppDelegate.swift in Sources */,
 				D0AE74CB2C274EB8002B3F89 /* PaymentInfoView.swift in Sources */,
@@ -282,9 +337,14 @@
 				D0AE74E02C275AE5002B3F89 /* CartView.swift in Sources */,
 				D2D4490B2C26FB070014E7C1 /* Collab_Project.xcdatamodeld in Sources */,
 				D0AE74DC2C2758BC002B3F89 /* CartCounter.swift in Sources */,
+				D0C004172C275FF1004E31B3 /* AuthorizationModel.swift in Sources */,
+				D0C004222C2760A5004E31B3 /* AutorizationHeader.swift in Sources */,
 				D0AE74D92C27583E002B3F89 /* ProductListCell.swift in Sources */,
+				D0C0041B2C276013004E31B3 /* AuthorizationController.swift in Sources */,
 				D0AE74D62C2751FA002B3F89 /* Extensions.swift in Sources */,
 				D2D449032C26FB070014E7C1 /* SceneDelegate.swift in Sources */,
+				D0C004242C2760D8004E31B3 /* AuthorizationForm.swift in Sources */,
+				D0C004262C276107004E31B3 /* FieldWithPaddings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
