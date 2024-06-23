@@ -14,10 +14,12 @@ protocol ProductListViewModelType {
 
 protocol ProductListModelInput {
     func fetchProducts()
+    func cartviewInfo()
 }
 
 protocol ProductListModelOutput {
     func reloadData()
+    func setupCartView(_ total: (Int, Double))
 }
 
 
@@ -60,6 +62,11 @@ class ProductListViewModel: NSObject, ProductListViewModelType  {
 
 
 extension ProductListViewModel: ProductListModelInput {
+    func cartviewInfo() {
+        let total = CartManager.shared.cartInfo()
+        self.output?.setupCartView(total)
+    }
+    
     func fetchProducts() {
         
         products = UserDefaults.standard.getproducts()
@@ -77,6 +84,13 @@ extension ProductListViewModel: ProductListModelInput {
                 }
             }
         }
+    }
+}
+
+extension ProductListViewModel: CartManagerDelegate {
+    func cartDidUpdate() {
+        let total = CartManager.shared.cartInfo()
+        self.output?.setupCartView(total)
     }
 }
 

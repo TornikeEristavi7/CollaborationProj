@@ -19,6 +19,7 @@ class ProductsListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchProducts()
+        viewModel.cartviewInfo()
     }
     
     override func viewDidLoad() {
@@ -29,10 +30,13 @@ class ProductsListViewController: UIViewController {
         setupTabelView()
         
         cartView.delegate = self
+        CartManager.shared.delegate = viewModel
+
         viewModel.output = self
         
         setupLogoImageView()
         setupLogoutButton()
+        
     }
     
     private func setupTabelView() {
@@ -114,6 +118,12 @@ class ProductsListViewController: UIViewController {
         print("Logout button tapped")
         
     }
+    
+    @objc func userDefaultsDidChange(_ notification: Notification) {
+        let total = CartManager.shared.cartInfo()
+        self.cartView.configure(cartAmount: total.amount, total: total.total)
+        
+    }
 }
 
 extension ProductsListViewController: CartViewDelegate {
@@ -159,4 +169,9 @@ extension ProductsListViewController: ProductListModelOutput {
             self.tableView.reloadData()
         }
     }
+    
+    func setupCartView(_ total: (Int, Double)) {
+        self.cartView.configure(cartAmount: total.0, total: total.1)
+    }
+    
 }

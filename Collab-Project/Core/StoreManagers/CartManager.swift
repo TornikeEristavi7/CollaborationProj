@@ -7,7 +7,13 @@
 
 import Foundation
 
+protocol CartManagerDelegate: AnyObject {
+    func cartDidUpdate()
+}
+
 class CartManager {
+    var delegate: CartManagerDelegate?
+    
     static let shared = CartManager()
     private var cartItems: [ProductListModel] = []
 
@@ -25,6 +31,7 @@ class CartManager {
             
         }
         saveCart()
+        delegate?.cartDidUpdate()
     }
 
     func removeFromCart(item: ProductListModel) {
@@ -35,6 +42,7 @@ class CartManager {
             }
         }
         saveCart()
+        delegate?.cartDidUpdate()
     }
 
     func getCartItems() -> [ProductListModel] {
