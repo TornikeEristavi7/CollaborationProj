@@ -49,7 +49,7 @@ class CartManager {
             totalcount += item.count
             totalPrice += Double(item.count) * item.product.price
         }
-        return (totalcount, totalPrice)
+        return (totalcount, totalPrice.rounded(toPlaces: 2))
     }
 
     private func saveCart() {
