@@ -29,11 +29,15 @@ class ProductListViewModel: NSObject, ProductListViewModelType  {
     
     var products = [ProductListModel]()
     
+    var productList = [String: [ProductListModel]]()
+    
     private var response: ResponseModel? {
         didSet {
             updateDataForTableView()
         }
     }
+    
+    
     private func updateDataForTableView() {
         guard let response = response else {
             products = []
@@ -46,6 +50,9 @@ class ProductListViewModel: NSObject, ProductListViewModelType  {
         
         UserDefaults.standard.saveProducts(products)
         
+        self.productList = Dictionary(grouping: products, by: {
+            $0.product.category
+        })
         
     }
     
@@ -54,10 +61,20 @@ class ProductListViewModel: NSObject, ProductListViewModelType  {
 
 extension ProductListViewModel: ProductListModelInput {
     func fetchProducts() {
-        NetworkService.shared.getData(urlString: "https://dummyjson.com/products") { (res: Result<ResponseModel,Error>) in
-            Task {
-                self.response = try! res.get()
-                self.output?.reloadData()
+        
+        products = UserDefaults.standard.getproducts()
+        
+        self.productList = Dictionary(grouping: products, by: {
+            $0.product.category
+        })
+        
+        self.output?.reloadData()
+        if products.count == 0 {
+            NetworkService.shared.getData(urlString: "https://dummyjson.com/products") { (res: Result<ResponseModel,Error>) in
+                Task {
+                    self.response = try! res.get()
+                    self.output?.reloadData()
+                }
             }
         }
     }

@@ -14,12 +14,17 @@ class ProductsList: UIViewController {
     
     let viewModel = ProductListViewModel()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("View will appear")
+        viewModel.fetchProducts()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupTabelView()
         viewModel.output = self
-        viewModel.fetchProducts()
         
     }
     
@@ -61,16 +66,27 @@ class ProductsList: UIViewController {
 
 extension ProductsList: UITableViewDataSource, UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return Array(viewModel.productList.keys)[section]
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.productList.keys.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.products.count
+        let key = Array(viewModel.productList.keys)[section]
+        return viewModel.productList[key]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductListCell", for: indexPath) as! ProductListCell
         
-        let current = viewModel.products[indexPath.row]
-        cell.configure(item: current)
-        
+        let key = Array(viewModel.productList.keys)[indexPath.section]
+        if let products = viewModel.productList[key] {
+            let product = products[indexPath.row]
+            cell.configure(item: product)
+        }
         return cell
     }
     
