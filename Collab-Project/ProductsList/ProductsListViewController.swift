@@ -11,12 +11,12 @@ class ProductsListViewController: UIViewController {
     
     let tableView = UITableView()
     private let cartView = CartView()
+    private let logoImageView = UIImageView()
     
     let viewModel = ProductListViewModel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("View will appear")
         viewModel.fetchProducts()
     }
     
@@ -28,20 +28,17 @@ class ProductsListViewController: UIViewController {
         cartView.delegate = self
         viewModel.output = self
         
+        setupLogoImageView()
     }
     
     private func setupTabelView() {
-        
         tableView.dataSource = self
         tableView.delegate = self
         self.navigationItem.hidesBackButton = true
         view.addSubview(tableView)
         
         tableView.register(ProductListCell.self, forCellReuseIdentifier: "ProductListCell")
-        
         tableView.separatorStyle = .none
-        
-        
         tableView.separatorColor = UIColor.clear
         tableView.layer.borderWidth = 1.5
         tableView.layer.borderColor = UIColor(red: 217/255, green: 219/255, blue: 233/255, alpha: 1.0).cgColor
@@ -51,7 +48,6 @@ class ProductsListViewController: UIViewController {
         cartView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -61,11 +57,34 @@ class ProductsListViewController: UIViewController {
             cartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             cartView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             cartView.heightAnchor.constraint(equalToConstant: 100)
-            
+        ])
+    }
+    
+    private func setupLogoImageView() {
+        if let logoImage = UIImage(named: "logo") {
+            logoImageView.image = logoImage
+        } else {
+            print("ფოტო ვერ ვიპოვეთ.სცადეთ თავიდან")
+        }
+        
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.clipsToBounds = true
+        logoImageView.layer.cornerRadius = 16
+        logoImageView.layer.maskedCorners = [.layerMinXMinYCorner]
+        logoImageView.alpha = 0.8
+        
+        view.addSubview(logoImageView)
+        
+//        ზომა თუარ დაგევასათ შეცვალეთ :დ
+        NSLayoutConstraint.activate([
+            logoImageView.widthAnchor.constraint(equalToConstant: 122),
+            logoImageView.heightAnchor.constraint(equalToConstant: 103),
+            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 42),
+            logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 133)
         ])
     }
 }
-
 
 extension ProductsListViewController: CartViewDelegate {
     func seeCart() {
@@ -75,7 +94,6 @@ extension ProductsListViewController: CartViewDelegate {
 }
 
 extension ProductsListViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return Array(viewModel.productList.keys)[section]
     }
@@ -104,7 +122,6 @@ extension ProductsListViewController: UITableViewDataSource, UITableViewDelegate
         return 150
     }
 }
-
 
 extension ProductsListViewController: ProductListModelOutput {
     func reloadData() {
