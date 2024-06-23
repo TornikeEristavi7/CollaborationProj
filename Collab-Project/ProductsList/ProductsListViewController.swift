@@ -12,6 +12,7 @@ class ProductsListViewController: UIViewController {
     let tableView = UITableView()
     private let cartView = CartView()
     private let logoImageView = UIImageView()
+    let logoutButton = UIButton(type: .custom)
     
     let viewModel = ProductListViewModel()
     
@@ -23,12 +24,15 @@ class ProductsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+        
         setupTabelView()
         
         cartView.delegate = self
         viewModel.output = self
         
         setupLogoImageView()
+        setupLogoutButton()
     }
     
     private func setupTabelView() {
@@ -48,7 +52,7 @@ class ProductsListViewController: UIViewController {
         cartView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 184),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: cartView.topAnchor),
@@ -72,7 +76,7 @@ class ProductsListViewController: UIViewController {
         logoImageView.clipsToBounds = true
         logoImageView.layer.cornerRadius = 16
         logoImageView.layer.maskedCorners = [.layerMinXMinYCorner]
-        logoImageView.alpha = 0.8
+//        logoImageView.alpha = 0.8 ეს გავთიშოთ რომ ლოგო დერმკრთალი არიყოს ოკ დოკ?
         
         view.addSubview(logoImageView)
         
@@ -80,9 +84,35 @@ class ProductsListViewController: UIViewController {
         NSLayoutConstraint.activate([
             logoImageView.widthAnchor.constraint(equalToConstant: 122),
             logoImageView.heightAnchor.constraint(equalToConstant: 103),
-            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 42),
+            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
             logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 133)
         ])
+    }
+    
+    private func setupLogoutButton() {
+        guard let logoutImage = UIImage(named: "logoutView") else {
+            print("ფოტო ვერ ვიპოვეთ.სცადეთ თავიდან")
+            return
+        }
+        
+        logoutButton.setImage(logoutImage, for: .normal)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(logoutButton)
+        
+        NSLayoutConstraint.activate([
+            logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 315)
+        ])
+        
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+    }
+
+    @objc private func logoutButtonTapped() {
+
+        print("Logout button tapped")
+        
     }
 }
 
