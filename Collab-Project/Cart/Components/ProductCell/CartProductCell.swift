@@ -19,7 +19,7 @@ class CartProductCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init code error")
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupViews() {
@@ -69,9 +69,14 @@ class CartProductCell: UITableViewCell {
         if let image = UIImage(named: imageName) {
             productImageView.image = image
         } else {
-            productImageView.image = UIImage(named: "placeholder_image")
+            if let imageURL = URL(string: imageName) {
+                productImageView.load(from: imageURL)
+            } else {
+                productImageView.image = UIImage(named: "placeholder_image")
+            }
         }
         
         priceLabel.text = String(format: "%.2f$", price)
     }
 }
+

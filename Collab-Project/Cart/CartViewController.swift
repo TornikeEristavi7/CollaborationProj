@@ -7,10 +7,9 @@
 
 import UIKit
 
-
 class CartViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    var products: [ProductModel] = []
+
+    var products: [ProductListModel] = []
     let tableView = UITableView()
     let bottomView = UIView()
     let payButton = UIButton()
@@ -24,7 +23,9 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let feePriceLabel = UILabel()
     let deliveryPriceLabel = UILabel()
     
-    
+    var feePrice: Double = 39.97
+    var deliveryPrice: Double = 50.0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 239/255, green: 240/255, blue: 246/255, alpha: 1.0)
@@ -74,7 +75,7 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         balanceTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         bottomView.addSubview(balanceTitleLabel)
         
-        totalPriceLabel.text = "3997$"
+        totalPriceLabel.text = "\(CartManager.shared.cartInfo().total)"
         totalPriceLabel.font = UIFont.boldSystemFont(ofSize: 14)
         totalPriceLabel.textColor = .black
         totalPriceLabel.textAlignment = .right
@@ -87,7 +88,7 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         feeTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         bottomView.addSubview(feeTitleLabel)
         
-        feePriceLabel.text = "39.97$"
+        feePriceLabel.text = "\(feePrice)$"
         feePriceLabel.font = UIFont.boldSystemFont(ofSize: 14)
         feePriceLabel.textColor = .black
         feePriceLabel.textAlignment = .right
@@ -100,7 +101,7 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         deliveryTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         bottomView.addSubview(deliveryTitleLabel)
         
-        deliveryPriceLabel.text = "50$"
+        deliveryPriceLabel.text = "\(deliveryPrice)$"
         deliveryPriceLabel.font = UIFont.boldSystemFont(ofSize: 14)
         deliveryPriceLabel.textColor = .black
         deliveryPriceLabel.textAlignment = .right
@@ -115,7 +116,7 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         bottomView.addSubview(totalTitleLabel)
         
         let totalAmountLabel = UILabel()
-        totalAmountLabel.text = "4086.97$"
+        totalAmountLabel.text = "\(CartManager.shared.cartInfo().total + feePrice + deliveryPrice)"
         totalAmountLabel.font = UIFont.boldSystemFont(ofSize: 16)
         totalAmountLabel.textColor = .black
         totalAmountLabel.textAlignment = .right
@@ -175,14 +176,21 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func payButtonTapped() {
         
-        // TODO: სწორ კონტროლერზე გადავიდეს
+        // TODO: Navigate to correct controller
 //        let temporaryVC = TemporaryVC()
 //        navigationController?.pushViewController(temporaryVC, animated: true)
     }
     
     func fetchData() {
-        products = [ProductModel(id: 2, title: "dlkdmf", price: 2.2, category: "grocery", stock: 4, thumbnail: "https://picsum.photos/id/870/200/300?grayscale&blur=2")]
+        products = CartManager.shared.getCartItems()
         tableView.reloadData()
+        
+        
+        let subtotal = CartManager.shared.cartInfo().total
+        let total = subtotal + feePrice + deliveryPrice
+        
+        
+        totalPriceLabel.text = "\(total)"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -194,7 +202,7 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return UITableViewCell()
         }
         let product = products[indexPath.row]
-        cell.configure(with: product.title, description: String(product.stock), price: product.price, imageName: product.thumbnail)
+        cell.configure(with: product.product.title, description: String(product.product.stock), price: product.product.price, imageName: product.product.thumbnail)
         
         return cell
     }
