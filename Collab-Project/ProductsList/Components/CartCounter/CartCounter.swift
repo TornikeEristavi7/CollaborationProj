@@ -54,15 +54,21 @@ class CartCounter: UIView {
         addSubview(plusButton)
         
         minusButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.count -= 1
-            //TODO: გამოვიყენოთ cart და product manager
-            //TODO: შემოწმდეს არ იყოს stock-ზე მეტი
+            
+            if self!.count > 0 {
+                self?.count -= 1
+                CartManager.shared.removeFromCart(item: self!.product!)
+                ProductsManager.shared.removeFromCart(item: self!.product!)
+            }
         }), for: .touchUpInside)
         
         plusButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.count += 1
-            //TODO: გამოვიყენოთ cart და product manager
-            //TODO: შემოწმდეს არ იყოს stock-ზე მეტი
+            
+            if self!.count < self!.product!.product.stock {
+                self?.count += 1
+                CartManager.shared.addToCart(item: self!.product!)
+                ProductsManager.shared.addToCart(item: self!.product!)
+            }
         }), for: .touchUpInside)
         
         NSLayoutConstraint.activate([

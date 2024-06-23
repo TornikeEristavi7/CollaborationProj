@@ -10,29 +10,42 @@ import Foundation
 class NetworkService {
     static let shared = NetworkService()
 
-    func fetchProducts(completion: @escaping (ResponseModel?, Error?) -> Void) {
-        guard let url = URL(string: "https://dummyjson.com/products") else {
-            completion(nil, NSError(domain: "Invalid URL", code: 0, userInfo: nil))
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
+    func getData<T: Codable>(urlString: String, completion: @escaping (Result<T,Error>) -> (Void)) {
+        let url = URL(string: urlString)
+        let urlRequest = URLRequest(url: url!)
+        
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
-                completion(nil, error)
+                print(error.localizedDescription)
+            }
+            
+            guard let response = response as? HTTPURLResponse else {
+                print("wrong Response Code")
                 return
             }
-
+            
+            guard (200...299).contains(response.statusCode) else {
+                print("wrong Response code")
+                return
+            }
+            
             guard let data = data else {
-                completion(nil, NSError(domain: "No data", code: 0, userInfo: nil))
                 return
             }
-
+            
             do {
-                let response = try JSONDecoder().decode(ResponseModel.self, from: data)
-                completion(response, nil)
+                
+                let decoder = JSONDecoder()
+                let object = try decoder.decode(T.self, from: data)
+                
+                DispatchQueue.main.async {
+                    completion(.success(object))
+                }
+                
             } catch {
-                completion(nil, error)
+                print("decoding error")
             }
         }.resume()
+        
     }
 }

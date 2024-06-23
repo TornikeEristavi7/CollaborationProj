@@ -26,6 +26,7 @@ class ProductListCell: UITableViewCell {
         titleLabel.font = Typography.labelFont
         titleLabel.textColor = Typography.labelTextColor
         titleLabel.textAlignment = Typography.labelTextAlignment
+        titleLabel.numberOfLines = 0
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
@@ -107,11 +108,13 @@ class ProductListCell: UITableViewCell {
         ])
     }
     
-    func configure(withTitle title: String, stock: Int, price: Int, imageName: String) {
-        titleLabel.text = title
-        stockLabel.text = "Stock: \(stock)"
-        priceLabel.text = "Price: \(price)"
-        productImageView.image = UIImage(named: imageName)
+    func configure(item: ProductListModel) {
+        titleLabel.text = item.product.title
+        stockLabel.text = "Stock: \(item.product.stock)"
+        priceLabel.text = "Price: \(item.product.price)"
+        productImageView.load(from: URL(string: item.product.thumbnail)!)
+        counterView.count = item.count
+        counterView.product = item
     }
     
     struct Typography {

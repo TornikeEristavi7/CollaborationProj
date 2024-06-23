@@ -12,9 +12,18 @@ class ProductsList: UIViewController {
     let tableView = UITableView()
     private let cartView = CartView()
     
+    let viewModel = ProductListViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTabelView()
+        viewModel.output = self
+        viewModel.fetchProducts()
+        
+    }
+    
+    private func setupTabelView() {
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -53,22 +62,14 @@ class ProductsList: UIViewController {
 extension ProductsList: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        viewModel.products.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductListCell", for: indexPath) as! ProductListCell
         
-        switch indexPath.row {
-        case 0:
-            cell.configure(withTitle: "Samsung", stock: 36, price: 1249, imageName: "Image1")
-        case 1:
-            cell.configure(withTitle: "Microsoft Surface", stock: 68, price: 1499, imageName: "Image2")
-        case 2:
-            cell.configure(withTitle: "HP Pavilion", stock: 89, price: 1099, imageName: "Image3")
-        default:
-            break
-        }
+        let current = viewModel.products[indexPath.row]
+        cell.configure(item: current)
         
         return cell
     }
@@ -79,4 +80,10 @@ extension ProductsList: UITableViewDataSource, UITableViewDelegate {
 }
 
 
-
+extension ProductsList: ProductListModelOutput {
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+}
