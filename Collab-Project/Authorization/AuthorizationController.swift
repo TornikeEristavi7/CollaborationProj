@@ -63,8 +63,8 @@ extension AuthorizationController: AuthorizationFormDelegate {
                 self?.authorizationForm.setLoading(false)
                 switch status {
                 case true:
-                    self?.showAlert(title: "ავტორიზაცია", message: message)
-                   //TODO: გადავიდეს ლისტინგის კონტროლერზე
+                    let vc = ProductsListViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
                 case false:
                     self?.showAlert(title: "დაფიქსირდა შეცდომა", message: message)
                 }

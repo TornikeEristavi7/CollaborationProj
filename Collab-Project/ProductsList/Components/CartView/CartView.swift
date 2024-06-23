@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol CartViewDelegate {
+    func seeCart()
+}
+
 class CartView: UIView {
+    
+    var delegate: CartViewDelegate?
     
     private var cart: UIImageView = {
         let imageView = UIImageView()
@@ -61,7 +67,7 @@ class CartView: UIView {
     private func setupUI() {
         
         seeCart.addAction(UIAction(handler: { [weak self] _ in
-            //TODO: დელეგეითით გადაეცემა კლიკი, რომ გადავიდეს კალათის ვიუკონტროლერზე
+            self?.delegate?.seeCart()
         }), for: .touchUpInside)
         
         self.backgroundColor =  UIColor(red: 68/255, green: 165/255, blue: 255/255, alpha: 1.0)

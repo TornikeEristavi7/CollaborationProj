@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductsList: UIViewController {
+class ProductsListViewController: UIViewController {
     
     let tableView = UITableView()
     private let cartView = CartView()
@@ -24,6 +24,8 @@ class ProductsList: UIViewController {
         super.viewDidLoad()
         
         setupTabelView()
+        
+        cartView.delegate = self
         viewModel.output = self
         
     }
@@ -32,6 +34,7 @@ class ProductsList: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        self.navigationItem.hidesBackButton = true
         view.addSubview(tableView)
         
         tableView.register(ProductListCell.self, forCellReuseIdentifier: "ProductListCell")
@@ -64,7 +67,14 @@ class ProductsList: UIViewController {
 }
 
 
-extension ProductsList: UITableViewDataSource, UITableViewDelegate {
+extension ProductsListViewController: CartViewDelegate {
+    func seeCart() {
+        let vc = CartViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension ProductsListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return Array(viewModel.productList.keys)[section]
@@ -96,7 +106,7 @@ extension ProductsList: UITableViewDataSource, UITableViewDelegate {
 }
 
 
-extension ProductsList: ProductListModelOutput {
+extension ProductsListViewController: ProductListModelOutput {
     func reloadData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
