@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class AuthorizationController: UIViewController {
     
@@ -14,11 +15,16 @@ class AuthorizationController: UIViewController {
     private let authorizationHeader = AutorizationHeader()
     private let authorizationForm = AuthorizationForm()
     
+    private var isNetworkReachable: Bool = true
+    
+    private var pathMonitor: NWPathMonitor?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupAuthorizationView()
         setupBindings()
+        setupNetworkMonitor()
         
     }
     
@@ -45,6 +51,29 @@ class AuthorizationController: UIViewController {
     
     private func setupBindings() {
         authorizationForm.delegate = self
+    }
+    
+    private func setupNetworkMonitor() {
+        pathMonitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        pathMonitor?.start(queue: queue)
+        
+        pathMonitor?.pathUpdateHandler = { [weak self] path in
+            DispatchQueue.main.async {
+                self?.isNetworkReachable = path.status == .satisfied
+                if !self!.isNetworkReachable {
+                    self?.showNoInternetAlert()
+                }
+            }
+        }
+    }
+    
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(title: "No Internet Connection",
+                                      message: "Please check your internet connection and try again.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     private func showAlert(title: String, message: String) {
