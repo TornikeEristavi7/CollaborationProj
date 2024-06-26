@@ -27,15 +27,14 @@ class ProductsListViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        setupLogoImageView()
+        setupLogoutButton()
         setupTabelView()
         
         cartView.delegate = self
         CartManager.shared.delegate = viewModel
 
         viewModel.output = self
-        
-        setupLogoImageView()
-        setupLogoutButton()
         
     }
     
@@ -48,15 +47,13 @@ class ProductsListViewController: UIViewController {
         tableView.register(ProductListCell.self, forCellReuseIdentifier: "ProductListCell")
         tableView.separatorStyle = .none
         tableView.separatorColor = UIColor.clear
-        tableView.layer.borderWidth = 1.5
-        tableView.layer.borderColor = UIColor(red: 217/255, green: 219/255, blue: 233/255, alpha: 1.0).cgColor
         
         view.addSubview(cartView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         cartView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 184),
+            tableView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: cartView.topAnchor),
@@ -88,8 +85,8 @@ class ProductsListViewController: UIViewController {
         NSLayoutConstraint.activate([
             logoImageView.widthAnchor.constraint(equalToConstant: 122),
             logoImageView.heightAnchor.constraint(equalToConstant: 103),
-            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
-            logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 133)
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
