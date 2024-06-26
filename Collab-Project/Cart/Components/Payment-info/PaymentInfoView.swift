@@ -4,20 +4,18 @@
 //
 //  Created by Tatarella on 22.06.24.
 //
-
 import UIKit
 
 class PaymentInfoView: UIView {
-
+    
     let messageLabel = UILabel()
     let returnButtonContainer = UIView()
     let returnButton = UIButton()
     let handleView = UIView()
-    let imageOfUnsucces = UIImage(named: "imageOfUnsucces")
     var popupTopConstraint: NSLayoutConstraint?
     
     var returnButtonTappedAction: (() -> Void)?
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -42,7 +40,7 @@ class PaymentInfoView: UIView {
         handleView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         handleView.heightAnchor.constraint(equalToConstant: 4).isActive = true
         
-        let imageViewOfUnsucces = UIImageView(image: imageOfUnsucces)
+        let imageViewOfUnsucces = UIImageView(image: UIImage(named: "imageOfUnsuccess"))
         imageViewOfUnsucces.contentMode = .scaleAspectFit
         addSubview(imageViewOfUnsucces)
         imageViewOfUnsucces.translatesAutoresizingMaskIntoConstraints = false
@@ -92,57 +90,76 @@ class PaymentInfoView: UIView {
         returnButtonTappedAction?()
     }
     
-    @objc private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-        guard let superview = superview else { return }
-        let translation = gesture.translation(in: superview)
+    @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self)
+        self.center = CGPoint(x: self.center.x, y: self.center.y + translation.y)
+        sender.setTranslation(CGPoint.zero, in: self)
         
-        if gesture.state == .changed {
-            let newY = frame.origin.y + translation.y
-            if newY >= superview.frame.height - frame.height && newY <= superview.frame.height {
-                frame.origin.y = newY
-                gesture.setTranslation(.zero, in: superview)
-            }
-        } else if gesture.state == .ended {
-            let velocity = gesture.velocity(in: superview)
-            if translation.y > 10 || velocity.y > 500 {
-                animateSlideDown()
+        if sender.state == .ended {
+            if self.frame.origin.y < UIScreen.main.bounds.height * 0.3 {
+                UIView.animate(withDuration: 0.3) {
+                    self.center.y = self.frame.height / 2
+                }
             } else {
-                animateSlideUp()
+                removeFromSuperview()
             }
         }
     }
     
-    private func animateSlideDown() {
-        guard let superview = superview else { return }
-        UIView.animate(withDuration: 0.5, animations: {
-            self.frame.origin.y = superview.frame.height
-            superview.layoutIfNeeded()
-        }) { _ in
-            self.removeFromSuperview()
+    func showSuccessMessage() {
+        messageLabel.text = "გადახდა წარმატებით შესრულდა! გმადლობთ რომ სარგებლობთ ჩვენი მომსახურეობით!"
+        messageLabel.textColor = .green
+        
+        removeImageViewIfExists()
+        
+        if let imageOfSuccess = UIImage(named: "imageOfSuccess") {
+            let imageViewOfSuccess = UIImageView(image: imageOfSuccess)
+            imageViewOfSuccess.contentMode = .scaleAspectFit
+            addSubview(imageViewOfSuccess)
+            imageViewOfSuccess.translatesAutoresizingMaskIntoConstraints = false
+            imageViewOfSuccess.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            imageViewOfSuccess.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50).isActive = true
+            imageViewOfSuccess.widthAnchor.constraint(equalToConstant: 100).isActive = true
+            imageViewOfSuccess.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            
+            messageLabel.translatesAutoresizingMaskIntoConstraints = false
+            messageLabel.topAnchor.constraint(equalTo: imageViewOfSuccess.bottomAnchor, constant: 20).isActive = true
+            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
+        }
+        
+        CartManager.shared.emtifyCart()
+        ProductsManager.shared.clearCart()
+    }
+    
+    func showUnsuccessMessage() {
+        messageLabel.text = "სამწუხაროდ გადახდა ვერ მოხერხდა, სცადეთ თავიდან."
+        messageLabel.textColor = .red
+        
+        removeImageViewIfExists()
+        
+        if let imageOfUnsuccess = UIImage(named: "imageOfUnsuccess") {
+            let imageViewOfUnsuccess = UIImageView(image: imageOfUnsuccess)
+            imageViewOfUnsuccess.contentMode = .scaleAspectFit
+            addSubview(imageViewOfUnsuccess)
+            imageViewOfUnsuccess.translatesAutoresizingMaskIntoConstraints = false
+            imageViewOfUnsuccess.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            imageViewOfUnsuccess.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50).isActive = true
+            imageViewOfUnsuccess.widthAnchor.constraint(equalToConstant: 100).isActive = true
+            imageViewOfUnsuccess.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            
+            messageLabel.translatesAutoresizingMaskIntoConstraints = false
+            messageLabel.topAnchor.constraint(equalTo: imageViewOfUnsuccess.bottomAnchor, constant: 20).isActive = true
+            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         }
     }
     
-    private func animateSlideUp() {
-        guard let superview = superview else { return }
-        UIView.animate(withDuration: 0.5) {
-            self.frame.origin.y = superview.frame.height - self.frame.height
-            superview.layoutIfNeeded()
+    private func removeImageViewIfExists() {
+        for subview in subviews {
+            if subview is UIImageView {
+                subview.removeFromSuperview()
+            }
         }
     }
-    
-    func show() {
-        guard let superview = superview else { return }
-        popupTopConstraint?.constant = -frame.height
-        UIView.animate(withDuration: 0.5) {
-            superview.layoutIfNeeded()
-        }
-    }
-    
-    func hide() {
-        popupTopConstraint?.constant = 0
-        UIView.animate(withDuration: 0.5) {
-            self.superview?.layoutIfNeeded()
-        }
-    }
-
 }
