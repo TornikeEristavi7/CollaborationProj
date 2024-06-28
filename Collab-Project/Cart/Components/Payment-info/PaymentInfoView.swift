@@ -62,9 +62,9 @@ class PaymentInfoView: UIView {
         messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         
-        returnButtonContainer.backgroundColor = .systemTeal
         returnButtonContainer.layer.cornerRadius = 20
         addSubview(returnButtonContainer)
+        returnButtonContainer.backgroundColor = UIColor(red: 0, green: 122/255, blue: 1, alpha: 0.8)
         returnButtonContainer.translatesAutoresizingMaskIntoConstraints = false
         returnButtonContainer.heightAnchor.constraint(equalToConstant: 60).isActive = true
         returnButtonContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
