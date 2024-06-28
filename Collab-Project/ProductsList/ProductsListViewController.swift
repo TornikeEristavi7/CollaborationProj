@@ -28,9 +28,8 @@ class ProductsListViewController: UIViewController {
         view.backgroundColor = .white
         
         setupLogoImageView()
-        setupLogoutButton()
         setupTabelView()
-        
+        setupLogout()
         cartView.delegate = self
         CartManager.shared.delegate = viewModel
 
@@ -90,30 +89,15 @@ class ProductsListViewController: UIViewController {
         ])
     }
     
-    private func setupLogoutButton() {
-        guard let logoutImage = UIImage(named: "logoutView") else {
-            print("ფოტო ვერ ვიპოვეთ.სცადეთ თავიდან")
-            return
-        }
-        
-        logoutButton.setImage(logoutImage, for: .normal)
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(logoutButton)
-        
-        NSLayoutConstraint.activate([
-            logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 315)
-        ])
-        
-        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+    private func setupLogout(){
+        let iconImage = UIImage(named: "logoutView")
+        let iconButton = UIBarButtonItem(image: iconImage, style: .plain, target: self, action: #selector(iconButtonTapped))
+        iconButton.tintColor = UIColor.black
+        navigationItem.rightBarButtonItem = iconButton
     }
-
-    @objc private func logoutButtonTapped() {
-
-        print("Logout button tapped")
-        
+    
+    @objc func iconButtonTapped() {
+        viewModel.logout()
     }
     
     @objc func userDefaultsDidChange(_ notification: Notification) {
@@ -161,6 +145,15 @@ extension ProductsListViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension ProductsListViewController: ProductListModelOutput {
+    func switchController() {
+        let vc = AuthorizationController()
+        let navController = UINavigationController(rootViewController: vc)
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = navController
+            UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
+    }
+    
     func reloadData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()

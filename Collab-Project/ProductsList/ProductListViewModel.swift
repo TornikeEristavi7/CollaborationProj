@@ -15,11 +15,14 @@ protocol ProductListViewModelType {
 protocol ProductListModelInput {
     func fetchProducts()
     func cartviewInfo()
+    func logout()
+    
 }
 
 protocol ProductListModelOutput {
     func reloadData()
     func setupCartView(_ total: (Int, Double))
+    func switchController()
 }
 
 
@@ -62,6 +65,12 @@ class ProductListViewModel: NSObject, ProductListViewModelType  {
 
 
 extension ProductListViewModel: ProductListModelInput {
+    func logout() {
+        UserDefaults.standard.removeObject(forKey: "user")
+        self.output?.switchController()
+    }
+    
+    
     func cartviewInfo() {
         let total = CartManager.shared.cartInfo()
         self.output?.setupCartView(total)

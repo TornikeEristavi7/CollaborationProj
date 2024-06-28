@@ -90,14 +90,13 @@ class PaymentInfoView: UIView {
         animateSlideUp()
         returnButtonTappedAction?()
     }
-
-    func showSuccessMessage() {
-        messageLabel.text = "გადახდა წარმატებით შესრულდა! გმადლობთ რომ სარგებლობთ ჩვენი მომსახურეობით!"
-        messageLabel.textColor = .green
+    
+    func configurePopup(text: String, icon: String) {
+        messageLabel.text = text
         
         removeImageViewIfExists()
         
-        if let imageOfSuccess = UIImage(named: "imageOfSuccess") {
+        if let imageOfSuccess = UIImage(named: icon) {
             let imageViewOfSuccess = UIImageView(image: imageOfSuccess)
             imageViewOfSuccess.contentMode = .scaleAspectFit
             addSubview(imageViewOfSuccess)
@@ -109,31 +108,6 @@ class PaymentInfoView: UIView {
             
             messageLabel.translatesAutoresizingMaskIntoConstraints = false
             messageLabel.topAnchor.constraint(equalTo: imageViewOfSuccess.bottomAnchor, constant: 20).isActive = true
-            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-        }
-        
-        animateSlideUp()
-    }
-
-    func showUnsuccessMessage() {
-        messageLabel.text = "სამწუხაროდ გადახდა ვერ მოხერხდა, სცადეთ თავიდან."
-        messageLabel.textColor = .red
-        
-        removeImageViewIfExists()
-        
-        if let imageOfUnsuccess = UIImage(named: "imageOfUnsuccess") {
-            let imageViewOfUnsuccess = UIImageView(image: imageOfUnsuccess)
-            imageViewOfUnsuccess.contentMode = .scaleAspectFit
-            addSubview(imageViewOfUnsuccess)
-            imageViewOfUnsuccess.translatesAutoresizingMaskIntoConstraints = false
-            imageViewOfUnsuccess.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            imageViewOfUnsuccess.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50).isActive = true
-            imageViewOfUnsuccess.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            imageViewOfUnsuccess.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            
-            messageLabel.translatesAutoresizingMaskIntoConstraints = false
-            messageLabel.topAnchor.constraint(equalTo: imageViewOfUnsuccess.bottomAnchor, constant: 20).isActive = true
             messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
             messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         }

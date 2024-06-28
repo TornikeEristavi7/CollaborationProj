@@ -30,12 +30,13 @@ class ProductsManager {
     }
     
     func clearCart() {
-        for item in products {
+        products = products.map { item in
+            var updatedItem = item
             if item.count > 0 {
-                var curr = item
-                curr.product.stock -= item.count
-                curr.count = 0
+                updatedItem.product.stock -= item.count
+                updatedItem.count = 0
             }
+            return updatedItem
         }
         updateProducts()
     }

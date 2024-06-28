@@ -11,6 +11,7 @@ extension UserDefaults {
     private enum Keys {
         static let productItems = "products"
         static let cartItems = "cart"
+        static let user = "user"
     }
     
     func saveProducts(_ items: [ProductListModel]) {
@@ -40,6 +41,14 @@ extension UserDefaults {
             return decoded
         }
         return []
+    }
+    
+    func isLogedIn() -> Bool{
+        if let data = data(forKey:  Keys.user),
+           let _ = try? JSONDecoder().decode(User.self, from: data) {
+            return true
+        }
+        return false
     }
 
 }

@@ -33,7 +33,7 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     var popupBottomConstraint: NSLayoutConstraint?
 
-    var balance: Double = 122222222 {
+    var balance: Double = 0 {
         didSet {
             balancePriceLabel.text = "\(balance)$"
             updateTotalAmount()
@@ -55,6 +55,8 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         setupPopupView()
 
         fetchData()
+        
+        fetchUser()
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -64,6 +66,16 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         ])
     }
 
+    private func fetchUser(){
+        guard let user = UserDefaults.standard.data(forKey: "user") else { return }
+        do {
+            let decoder = JSONDecoder()
+            let person = try decoder.decode(User.self, from: user)
+            balance = Double(person.balance)
+        } catch { }
+        
+    }
+    
     private func setupBottomView() {
         let lightGrayColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
 
@@ -200,20 +212,24 @@ class CartViewController: UIViewController, UITableViewDataSource, UITableViewDe
         popupBottomConstraint?.isActive = true
         popupView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         popupView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        popupView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
+        popupView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.9).isActive = true
     }
 
     @objc private func payButtonTapped() {
         let subtotal = CartManager.shared.cartInfo().total
         let total = subtotal + feePrice + deliveryPrice
 
-        if total <= balance {
+        if total <= balance, products.count > 0  {
+            // ბალანსი გავუტოლოთ ახალ ბალანსს(გამოკლებულს) და იუზერდეფოლტებიც დაისეტოს
             showPopup()
-            popupView.showSuccessMessage()
+            popupView.configurePopup(text: "გადახდა წარმატებით შესრულდა! გმადლობთ რომ სარგებლობთ ჩვენი მომსახურეობით!", icon: "imageOfSuccess")
+            CartManager.shared.emtifyCart()
+            ProductsManager.shared.clearCart()
+            products = CartManager.shared.getCartItems()
+            self.tableView.reloadData()
+            
         } else {
-            popupView.messageLabel.text = "სამწუხაროდ გადახდა ვერ მოხერხდა, სცადეთ თავიდან."
-            popupView.messageLabel.textColor = .red
-            popupView.showUnsuccessMessage()
+            popupView.configurePopup(text: "სამწუხაროდ გადახდა ვერ მოხერხდა, სცადეთ თავიდან.", icon: "imageOfUnsuccess")
             showPopup()
         }
     }
