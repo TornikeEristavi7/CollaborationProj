@@ -25,7 +25,8 @@ class AuthService {
     
     private var users: [User] = [
         User(email: "Avalianitata@gmail.com", password: "123321", balance: 40000),
-        User(email: "Tornikeeristavi@gmail.com", password: "12345", balance: 100000) 
+        User(email: "Tornikeeristavi@gmail.com", password: "12345", balance: 100000),
+        User(email: "GvancaKo@gmail.com", password: "040502", balance: 500000)
     ]
     
     func login(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {

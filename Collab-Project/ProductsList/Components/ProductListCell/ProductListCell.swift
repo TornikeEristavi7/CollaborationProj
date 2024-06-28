@@ -110,7 +110,13 @@ class ProductListCell: UITableViewCell {
     
     func configure(item: ProductListModel) {
         titleLabel.text = item.product.title
-        stockLabel.text = "Stock: \(item.product.stock)"
+        if item.product.stock > 0 {
+            stockLabel.text = "Stock: \(item.product.stock)"
+            stockLabel.textColor = Typography.labelTextColor
+        } else {
+            stockLabel.text = "Out of Stock"
+            stockLabel.textColor = .red
+        }
         priceLabel.text = "Price: \(item.product.price)"
         productImageView.load(from: URL(string: item.product.thumbnail)!)
         counterView.count = item.count
