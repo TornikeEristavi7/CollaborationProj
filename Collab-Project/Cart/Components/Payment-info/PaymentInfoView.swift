@@ -7,29 +7,32 @@
 import UIKit
 
 class PaymentInfoView: UIView {
-    
+
     let messageLabel = UILabel()
     let returnButtonContainer = UIView()
     let returnButton = UIButton()
     let handleView = UIView()
-    var popupTopConstraint: NSLayoutConstraint?
     
     var returnButtonTappedAction: (() -> Void)?
-    
+    var dismissAction: (() -> Void)?
+
+    private var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        setupGestureRecognizers()
+        self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: 300)
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
-        setupGestureRecognizers()
+        self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: 300)
     }
-    
+
     private func setupView() {
         backgroundColor = .white
+        clipsToBounds = true
         
         handleView.backgroundColor = .lightGray
         handleView.layer.cornerRadius = 2
@@ -40,14 +43,14 @@ class PaymentInfoView: UIView {
         handleView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         handleView.heightAnchor.constraint(equalToConstant: 4).isActive = true
         
-        let imageViewOfUnsucces = UIImageView(image: UIImage(named: "imageOfUnsuccess"))
-        imageViewOfUnsucces.contentMode = .scaleAspectFit
-        addSubview(imageViewOfUnsucces)
-        imageViewOfUnsucces.translatesAutoresizingMaskIntoConstraints = false
-        imageViewOfUnsucces.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        imageViewOfUnsucces.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20).isActive = true
-        imageViewOfUnsucces.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        imageViewOfUnsucces.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        let imageViewOfUnsuccess = UIImageView(image: UIImage(named: "imageOfUnsuccess"))
+        imageViewOfUnsuccess.contentMode = .scaleAspectFit
+        addSubview(imageViewOfUnsuccess)
+        imageViewOfUnsuccess.translatesAutoresizingMaskIntoConstraints = false
+        imageViewOfUnsuccess.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        imageViewOfUnsuccess.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20).isActive = true
+        imageViewOfUnsuccess.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        imageViewOfUnsuccess.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
         messageLabel.text = "სამწუხაროდ გადახდა ვერ მოხერხდა, სცადეთ თავიდან."
         messageLabel.textAlignment = .center
@@ -55,8 +58,7 @@ class PaymentInfoView: UIView {
         messageLabel.textColor = .black
         addSubview(messageLabel)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.topAnchor.constraint(equalTo: imageViewOfUnsucces.bottomAnchor, constant: 8).isActive = true
-        messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        messageLabel.topAnchor.constraint(equalTo: imageViewOfUnsuccess.bottomAnchor, constant: 8).isActive = true
         messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         
@@ -78,34 +80,17 @@ class PaymentInfoView: UIView {
         returnButton.centerXAnchor.constraint(equalTo: returnButtonContainer.centerXAnchor).isActive = true
         returnButton.centerYAnchor.constraint(equalTo: returnButtonContainer.centerYAnchor).isActive = true
         
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        addGestureRecognizer(panGesture)
+        
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func setupGestureRecognizers() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
-        addGestureRecognizer(panGesture)
-    }
-    
     @objc private func returnButtonTapped() {
+        animateSlideUp()
         returnButtonTappedAction?()
     }
-    
-    @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: self)
-        self.center = CGPoint(x: self.center.x, y: self.center.y + translation.y)
-        sender.setTranslation(CGPoint.zero, in: self)
-        
-        if sender.state == .ended {
-            if self.frame.origin.y < UIScreen.main.bounds.height * 0.3 {
-                UIView.animate(withDuration: 0.3) {
-                    self.center.y = self.frame.height / 2
-                }
-            } else {
-                removeFromSuperview()
-            }
-        }
-    }
-    
+
     func showSuccessMessage() {
         messageLabel.text = "გადახდა წარმატებით შესრულდა! გმადლობთ რომ სარგებლობთ ჩვენი მომსახურეობით!"
         messageLabel.textColor = .green
@@ -128,10 +113,9 @@ class PaymentInfoView: UIView {
             messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         }
         
-        CartManager.shared.emtifyCart()
-        ProductsManager.shared.clearCart()
+        animateSlideUp()
     }
-    
+
     func showUnsuccessMessage() {
         messageLabel.text = "სამწუხაროდ გადახდა ვერ მოხერხდა, სცადეთ თავიდან."
         messageLabel.textColor = .red
@@ -153,13 +137,57 @@ class PaymentInfoView: UIView {
             messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
             messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         }
+        
+        animateSlideUp()
     }
-    
+
     private func removeImageViewIfExists() {
         for subview in subviews {
             if subview is UIImageView {
                 subview.removeFromSuperview()
             }
+        }
+    }
+    
+    private func animateSlideUp() {
+        UIView.animate(withDuration: 0.3) {
+            self.frame.origin.y = UIScreen.main.bounds.height - self.frame.height
+        }
+    }
+    
+    private func animateSlideDown(completion: (() -> Void)? = nil) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.frame.origin.y = UIScreen.main.bounds.height
+        }) { _ in
+            completion?()
+        }
+    }
+    
+    @objc private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        let touchPoint = gesture.location(in: UIApplication.shared.keyWindow)
+        
+        if gesture.state == .began {
+            initialTouchPoint = touchPoint
+        } else if gesture.state == .changed {
+            let deltaY = touchPoint.y - initialTouchPoint.y
+            if deltaY > 0 { 
+                self.frame.origin.y += deltaY
+                initialTouchPoint = touchPoint
+            }
+        } else if gesture.state == .ended || gesture.state == .cancelled {
+            if self.frame.origin.y < UIScreen.main.bounds.height - self.frame.height / 2 {
+                animateSlideUp()
+            } else {
+                animateSlideDown {
+                    self.dismissAction?()
+                }
+            }
+        }
+    }
+    
+    func dismiss() {
+        animateSlideDown {
+            self.dismissAction?()
         }
     }
 }
