@@ -80,11 +80,6 @@ extension ProductListViewModel: ProductListModelInput {
         
         products = UserDefaults.standard.getproducts()
         
-        self.productList = Dictionary(grouping: products, by: {
-            $0.product.category
-        })
-        
-        self.output?.reloadData()
         if products.count == 0 {
             NetworkService.shared.getData(urlString: "https://dummyjson.com/products") { (res: Result<ResponseModel,Error>) in
                 Task {
@@ -92,6 +87,13 @@ extension ProductListViewModel: ProductListModelInput {
                     self.output?.reloadData()
                 }
             }
+        } else {
+            
+            self.productList = Dictionary(grouping: products, by: {
+                $0.product.category
+            })
+            
+            self.output?.reloadData()
         }
     }
 }

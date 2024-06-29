@@ -23,7 +23,6 @@ extension UserDefaults {
     func getproducts() -> [ProductListModel] {
         if let data = data(forKey: Keys.productItems),
            let decoded = try? JSONDecoder().decode([ProductListModel].self, from: data) {
-            print("userdefaults-ebidan wamoigo")
             return decoded
         }
         return []
@@ -49,6 +48,20 @@ extension UserDefaults {
             return true
         }
         return false
+    }
+    
+    func saveUser(user: User) {
+        if let encoded = try? JSONEncoder().encode(user) {
+            set(encoded, forKey: Keys.user)
+        }
+    }
+    
+    func getUser() -> User? {
+        if let data = data(forKey: Keys.user),
+           let decoded = try? JSONDecoder().decode(User.self, from: data) {
+            return decoded
+        }
+        return nil
     }
 
 }

@@ -11,7 +11,8 @@ import UIKit
 
 extension UIImageView {
     func load(from url: URL) {
-        DispatchQueue.global().async {
+        self.image = nil
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
             [weak self] in
             if let data = try? Data(contentsOf: url) {
                 if let image = UIImage(data: data) {

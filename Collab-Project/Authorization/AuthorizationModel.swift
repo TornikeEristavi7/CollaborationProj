@@ -10,5 +10,5 @@ import Foundation
 struct User: Codable {
     var email: String
     var password: String
-    var balance: Int
+    var balance: Double
 }

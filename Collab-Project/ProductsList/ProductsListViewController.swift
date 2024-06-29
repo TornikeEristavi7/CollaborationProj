@@ -26,15 +26,13 @@ class ProductsListViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
+        viewModel.fetchProducts()
         setupLogoImageView()
         setupTabelView()
         setupLogout()
         cartView.delegate = self
         CartManager.shared.delegate = viewModel
-        
         viewModel.output = self
-        
     }
     
     private func setupTabelView() {
@@ -76,11 +74,9 @@ class ProductsListViewController: UIViewController {
         logoImageView.clipsToBounds = true
         logoImageView.layer.cornerRadius = 16
         logoImageView.layer.maskedCorners = [.layerMinXMinYCorner]
-        //        logoImageView.alpha = 0.8 ეს გავთიშოთ რომ ლოგო დერმკრთალი არიყოს ოკ დოკ?
         
         view.addSubview(logoImageView)
         
-        //        ზომა თუარ დაგევასათ შეცვალეთ :დ
         NSLayoutConstraint.activate([
             logoImageView.widthAnchor.constraint(equalToConstant: 122),
             logoImageView.heightAnchor.constraint(equalToConstant: 103),
