@@ -95,7 +95,7 @@ class ProductListCell: UITableViewCell {
             
             titleLabel.topAnchor.constraint(equalTo: contentContainerView.topAnchor, constant: 10),
             titleLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
-            titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
+            titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20),
             
             countLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             countLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
@@ -112,7 +112,7 @@ class ProductListCell: UITableViewCell {
     func configure(item: ProductListModel) {
         titleLabel.text = item.product.title
         if item.product.stock > 0 {
-            countLabel.text = "Count: \(item.count)"
+            countLabel.text = "Stock: \(item.product.stock)"
             countLabel.textColor = Typography.labelTextColor
         } else {
             countLabel.text = "Out of Stock"

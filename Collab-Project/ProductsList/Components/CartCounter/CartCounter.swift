@@ -79,7 +79,7 @@ class CartCounter: UIView {
             
             counterLabel.leadingAnchor.constraint(equalTo: minusButton.trailingAnchor, constant: 10),
             counterLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            counterLabel.widthAnchor.constraint(equalToConstant: 10),
+            counterLabel.widthAnchor.constraint(equalToConstant: 20),
             
             plusButton.leadingAnchor.constraint(equalTo: counterLabel.trailingAnchor, constant: 10),
             plusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),

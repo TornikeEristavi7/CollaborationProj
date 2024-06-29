@@ -172,8 +172,8 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CartProductCell", for: indexPath) as? CartProductCell else {
             return UITableViewCell()
         }
-        let product = viewModel.cartData[indexPath.row]
-        cell.configure(with: product.product.title, description: String(product.product.stock), price: product.product.price, imageName: product.product.thumbnail)
+        let currProduct = viewModel.cartData[indexPath.row]
+        cell.configure(with: currProduct.product.title, description: String(currProduct.count), price: currProduct.product.price, imageName: currProduct.product.thumbnail)
         
         return cell
     }

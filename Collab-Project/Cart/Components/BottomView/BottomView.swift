@@ -43,7 +43,8 @@ class BottomView: UIView {
         totalPriceLabel.text = "\(total)"
         feePriceLabel.text = "\(fee)$"
         deliveryPriceLabel.text = "\(deliveryPrice)$"
-        totalAmountLabel.text = "\(total + fee + deliveryPrice)"
+        let sum = total + fee + deliveryPrice
+        totalAmountLabel.text = "\(sum.rounded(toPlaces: 2))"
     }
     
     private func setupView(){

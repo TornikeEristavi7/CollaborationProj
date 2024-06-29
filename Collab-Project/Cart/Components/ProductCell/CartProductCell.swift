@@ -65,7 +65,7 @@ class CartProductCell: UITableViewCell {
     
     func configure(with title: String, description: String, price: Double, imageName: String) {
         titleLabel.text = title
-        descriptionLabel.text = description
+        descriptionLabel.text = "\(description)x"
         
         if let image = UIImage(named: imageName) {
             productImageView.image = image
