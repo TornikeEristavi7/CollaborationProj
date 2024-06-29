@@ -133,7 +133,7 @@ class CartViewController: UIViewController {
 extension CartViewController: CartViewModelOutput {
     func updateCart(totalAmount: Double, balance: Double) {
         let total = totalAmount + feePrice + deliveryPrice
-        if total <= balance {
+        if total <= balance, viewModel.cartData.count > 0 {
             viewModel.processPayment(amount: total)
             showPopup()
             popupView.configurePopup(text: "გადახდა წარმატებით შესრულდა!", icon: "imageOfSuccess")
