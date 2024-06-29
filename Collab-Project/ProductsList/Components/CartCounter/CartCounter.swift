@@ -19,21 +19,21 @@ class CartCounter: UIView {
     
     private let minusButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "minus.circle"), for: .normal)
+        button.setImage(UIImage(named: "minusImage"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let plusButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        button.setImage(UIImage(named: "plusIcon"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let counterLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = UIFont.systemFont(ofSize: 18)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -74,18 +74,18 @@ class CartCounter: UIView {
         NSLayoutConstraint.activate([
             minusButton.leadingAnchor.constraint(equalTo: leadingAnchor),
             minusButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            minusButton.widthAnchor.constraint(equalToConstant: 40),
-            minusButton.heightAnchor.constraint(equalToConstant: 40),
+            minusButton.widthAnchor.constraint(equalToConstant: 24),
+            minusButton.heightAnchor.constraint(equalToConstant: 24),
             
             counterLabel.leadingAnchor.constraint(equalTo: minusButton.trailingAnchor, constant: 10),
             counterLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            counterLabel.widthAnchor.constraint(equalToConstant: 50),
+            counterLabel.widthAnchor.constraint(equalToConstant: 10),
             
             plusButton.leadingAnchor.constraint(equalTo: counterLabel.trailingAnchor, constant: 10),
-            plusButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            plusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             plusButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            plusButton.widthAnchor.constraint(equalToConstant: 40),
-            plusButton.heightAnchor.constraint(equalToConstant: 40)
+            plusButton.widthAnchor.constraint(equalToConstant: 24),
+            plusButton.heightAnchor.constraint(equalToConstant: 24)
         ])
         
         counterLabel.text = "\(count)"

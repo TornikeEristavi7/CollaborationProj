@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class ProductsListViewController: UIViewController {
     
@@ -16,10 +17,15 @@ class ProductsListViewController: UIViewController {
     
     let viewModel = ProductListViewModel()
     
+    private var isNetworkReachable: Bool = true
+    
+    private var pathMonitor: NWPathMonitor?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchProducts()
         viewModel.cartviewInfo()
+        setupNetworkMonitor()
     }
     
     override func viewDidLoad() {
@@ -84,6 +90,28 @@ class ProductsListViewController: UIViewController {
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
+    private func setupNetworkMonitor() {
+        pathMonitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        pathMonitor?.start(queue: queue)
+        
+        pathMonitor?.pathUpdateHandler = { [weak self] path in
+            DispatchQueue.main.async {
+                self?.isNetworkReachable = path.status == .satisfied
+                if !self!.isNetworkReachable {
+                    self?.showNoInternetAlert()
+                }
+            }
+        }
+    }
+    
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(title: "No Internet Connection",
+                                      message: "Please check your internet connection and try again.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
     
     private func setupLogout(){
         let iconImage = UIImage(named: "logoutView")
@@ -113,6 +141,13 @@ extension ProductsListViewController: CartViewDelegate {
 extension ProductsListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return Array(viewModel.productList.keys)[section]
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header:UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+
+        header.textLabel?.textColor = .black
+        header.textLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

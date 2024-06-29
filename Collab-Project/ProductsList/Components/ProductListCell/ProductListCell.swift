@@ -26,7 +26,7 @@ class ProductListCell: UITableViewCell {
         titleLabel.font = Typography.labelFont
         titleLabel.textColor = Typography.labelTextColor
         titleLabel.textAlignment = Typography.labelTextAlignment
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 2
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
@@ -95,6 +95,7 @@ class ProductListCell: UITableViewCell {
             
             titleLabel.topAnchor.constraint(equalTo: contentContainerView.topAnchor, constant: 10),
             titleLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
+            titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
             
             stockLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             stockLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),

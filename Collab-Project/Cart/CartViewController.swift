@@ -5,6 +5,7 @@
 //  Created by Tatarella on 22.06.24.
 //
 import UIKit
+import Network
 
 class CartViewController: UIViewController {
     
@@ -24,6 +25,10 @@ class CartViewController: UIViewController {
     
     var popupBottomConstraint: NSLayoutConstraint?
     
+    private var isNetworkReachable: Bool = true
+    
+    private var pathMonitor: NWPathMonitor?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 239/255, green: 240/255, blue: 246/255, alpha: 1.0)
@@ -32,6 +37,7 @@ class CartViewController: UIViewController {
         
         setupTableView()
         setupPopupView()
+        setupNetworkMonitor()
         
         viewModel.output = self
         viewModel.fetchData()
@@ -98,6 +104,28 @@ class CartViewController: UIViewController {
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
+    }
+    private func setupNetworkMonitor() {
+        pathMonitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        pathMonitor?.start(queue: queue)
+        
+        pathMonitor?.pathUpdateHandler = { [weak self] path in
+            DispatchQueue.main.async {
+                self?.isNetworkReachable = path.status == .satisfied
+                if !self!.isNetworkReachable {
+                    self?.showNoInternetAlert()
+                }
+            }
+        }
+    }
+    
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(title: "No Internet Connection",
+                                      message: "Please check your internet connection and try again.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
 }
