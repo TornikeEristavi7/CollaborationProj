@@ -31,13 +31,13 @@ class ProductListCell: UITableViewCell {
         return titleLabel
     }()
     
-    let stockLabel: UILabel = {
-        let stockLabel = UILabel()
-        stockLabel.font = Typography.labelFont
-        stockLabel.textColor = Typography.labelTextColor
-        stockLabel.textAlignment = Typography.labelTextAlignment
-        stockLabel.translatesAutoresizingMaskIntoConstraints = false
-        return stockLabel
+    let countLabel: UILabel = {
+        let countLabel = UILabel()
+        countLabel.font = Typography.labelFont
+        countLabel.textColor = Typography.labelTextColor
+        countLabel.textAlignment = Typography.labelTextAlignment
+        countLabel.translatesAutoresizingMaskIntoConstraints = false
+        return countLabel
     }()
     
     let priceLabel: UILabel = {
@@ -67,7 +67,7 @@ class ProductListCell: UITableViewCell {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("init code error")
     }
     
     private func setupViews() {
@@ -76,7 +76,7 @@ class ProductListCell: UITableViewCell {
         contentView.addSubview(contentContainerView)
         
         contentContainerView.addSubview(titleLabel)
-        contentContainerView.addSubview(stockLabel)
+        contentContainerView.addSubview(countLabel)
         contentContainerView.addSubview(priceLabel)
         contentContainerView.addSubview(productImageView)
         contentContainerView.addSubview(counterView)
@@ -97,10 +97,10 @@ class ProductListCell: UITableViewCell {
             titleLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
             titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
             
-            stockLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            stockLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
+            countLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            countLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
             
-            priceLabel.topAnchor.constraint(equalTo: stockLabel.bottomAnchor, constant: 10),
+            priceLabel.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 10),
             priceLabel.leftAnchor.constraint(equalTo: productImageView.rightAnchor, constant: 10),
             
             counterView.rightAnchor.constraint(equalTo: contentContainerView.rightAnchor),
@@ -112,11 +112,11 @@ class ProductListCell: UITableViewCell {
     func configure(item: ProductListModel) {
         titleLabel.text = item.product.title
         if item.product.stock > 0 {
-            stockLabel.text = "Stock: \(item.product.stock)"
-            stockLabel.textColor = Typography.labelTextColor
+            countLabel.text = "Count: \(item.count)"
+            countLabel.textColor = Typography.labelTextColor
         } else {
-            stockLabel.text = "Out of Stock"
-            stockLabel.textColor = .red
+            countLabel.text = "Out of Stock"
+            countLabel.textColor = .red
         }
         priceLabel.text = "Price: \(item.product.price)"
         productImageView.load(from: URL(string: item.product.thumbnail)!)
@@ -136,3 +136,4 @@ class ProductListCell: UITableViewCell {
         static let labelTextAlignment: NSTextAlignment = .left
     }
 }
+
