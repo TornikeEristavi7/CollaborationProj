@@ -32,7 +32,7 @@ class ProductsListViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        viewModel.fetchProducts()
+        
         setupLogoImageView()
         setupTabelView()
         setupLogout()

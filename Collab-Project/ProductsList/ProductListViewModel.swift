@@ -88,7 +88,6 @@ extension ProductListViewModel: ProductListModelInput {
                 }
             }
         } else {
-            
             self.productList = Dictionary(grouping: products, by: {
                 $0.product.category
             })
