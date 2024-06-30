@@ -90,6 +90,7 @@ class ProductsListViewController: UIViewController {
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
+    
     private func setupNetworkMonitor() {
         pathMonitor = NWPathMonitor()
         let queue = DispatchQueue(label: "NetworkMonitor")
@@ -134,7 +135,7 @@ class ProductsListViewController: UIViewController {
 extension ProductsListViewController: CartViewDelegate {
     func seeCart() {
         let vc = CartViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -195,4 +196,7 @@ extension ProductsListViewController: ProductListModelOutput {
         self.cartView.configure(cartAmount: total.0, total: total.1)
     }
     
+    func paymentSuccessful() {
+        navigationController?.popViewController(animated: true)
+    }
 }

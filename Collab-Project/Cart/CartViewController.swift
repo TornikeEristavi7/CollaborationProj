@@ -34,7 +34,6 @@ class CartViewController: UIViewController {
         view.backgroundColor = UIColor(red: 239/255, green: 240/255, blue: 246/255, alpha: 1.0)
         title = "გადახდის გვერდი"
         
-        
         setupTableView()
         setupPopupView()
         setupNetworkMonitor()
@@ -45,7 +44,6 @@ class CartViewController: UIViewController {
     }
     
     private func setupTableView() {
-        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CartProductCell.self, forCellReuseIdentifier: "CartProductCell")
@@ -80,6 +78,7 @@ class CartViewController: UIViewController {
         view.addSubview(popupView)
         popupView.returnButtonTappedAction = { [weak self] in
             self?.hidePopup()
+            self?.navigationController?.popViewController(animated: true)
         }
         popupView.isHidden = true
         
@@ -105,6 +104,7 @@ class CartViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
     private func setupNetworkMonitor() {
         pathMonitor = NWPathMonitor()
         let queue = DispatchQueue(label: "NetworkMonitor")
